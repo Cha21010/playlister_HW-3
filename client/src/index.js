@@ -17,6 +17,7 @@ const AppWrapper = () => {
     </GlobalStoreContext.Provider>
   )
 }
+//ha
 ReactDOM.render(
   <React.StrictMode>
     <AppWrapper />
