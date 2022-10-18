@@ -23,6 +23,17 @@ function EditToolbar() {
         history.push("/");
         store.closeCurrentList();
     }
+    function handleAddSong(){
+        if(store.currentList){
+            let newSong = {
+                "title":"Untitled",
+                "artist":"unknown",
+                "youTubeId":"dQw4w9WgXcQ"
+            };
+            store.addAddSongTransaction(store.getPlaylistSize(),newSong);
+        }
+    }
+
     let editStatus = false;
     if (store.isListNameEditActive) {
         editStatus = true;
@@ -34,6 +45,7 @@ function EditToolbar() {
                 id='add-song-button'
                 disabled={editStatus}
                 value="+"
+                onClick={handleAddSong}
                 className={enabledButtonClass}
             />
             <input

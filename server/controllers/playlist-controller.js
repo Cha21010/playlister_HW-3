@@ -51,33 +51,13 @@ deletePlaylistById = async(req,res) => {
 }
 
 updatePlaylistById = async(req, res) => {
-    const body = req.body;
-    console.log("updatePlaylist body: " + body);
-    if (!body) {
-        return res.status(400).json({
-            success: false,
-            error: 'You must provide a Playlist',
-        })
-    }
-    const playlist = new Playlist(body);
-    console.log("playlist: " + JSON.stringify(body));
-    if (!playlist) {
-        return res.status(400).json({success: false, error: err })
-    }
-    await Playlist.updateOne({ _id: req.params.id },{"$set":{"name":req.body.name,"songs":req.body.songs}})
-    .then(() => {
-        return res.status(201).json({
-            success: true,
-            playlist: playlist,
-            message: 'Playlist Created!',
-        })
-    })
-    .catch(error => {
-        return res.status(400).json({
-            error,
-            message: 'Playlist Not Created!',
-        })
-    })
+    let body = req.body
+    await Playlist.findByIdAndUpdate({_id: body._id}, body.playlist, {new: true, useFindAndModify: false},(err, list) => {
+        if (err){
+            return res.status(400).json({ success: false, error: err })
+        }
+        return res.status(200).json({ success: true, data: list })
+    }).catch(err => console.log(err))
 }
 
 getPlaylistById = async (req, res) => {
@@ -94,12 +74,18 @@ getPlaylists = async (req, res) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!playlists.length) {
+        let l = playlist.length;
+        if (!l) {
             return res
                 .status(404)
-                .json({ success: false, error: `Playlists not found` })
+                .json({ 
+                    success: false, 
+                    error: `Playlists not found` })
         }
-        return res.status(200).json({ success: true, data: playlists })
+        return res.status(200).
+        json({ 
+            success: true,
+             data: playlists })
     }).catch(err => console.log(err))
 }
 getPlaylistPairs = async (req, res) => {
