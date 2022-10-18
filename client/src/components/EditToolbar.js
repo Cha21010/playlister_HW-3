@@ -12,7 +12,7 @@ function EditToolbar() {
     const history = useHistory();
 
     let enabledButtonClass = "playlister-button";
-
+    
     function handleUndo() {
         store.undo();
     }
@@ -34,10 +34,11 @@ function EditToolbar() {
         }
     }
 
-    let editStatus = false;
-    if (store.isListNameEditActive) {
-        editStatus = true;
+    let editStatus = true;
+    if (store.currentList) {
+        editStatus = false;
     }
+
     return (
         <span id="edit-toolbar">
             <input

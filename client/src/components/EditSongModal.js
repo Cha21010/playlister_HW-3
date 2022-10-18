@@ -10,6 +10,18 @@ function EditSongModal() {
         store.closeModal("edit-song-modal");
     }
     function handleConfirm(event){
+        event.stopPropagation();
+        let previousSong = {"title":store.getMarkedSongName(),"artist":store.getMarkedSongArtist(),"youTubeId":store.getMarkedSongYoutubeid()};
+        let initTitle = document.getElementById("edit-song-title").value;
+        let initArtist = document.getElementById("edit-song-artist").value;
+        let initYoutubeid = document.getElementById("edit-song-youtubeid").value;
+        let initSong = {
+            "title":initTitle,
+            "artist":initArtist,
+            "youTubeId":initYoutubeid
+        }
+        store.addEditSongTransaction(store.getMarkedSongIndex(),previousSong,initSong);
+        store.closeModal("edit-song-modal");
     }
 
     let EditSongModalElement = 

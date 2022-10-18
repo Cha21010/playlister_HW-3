@@ -3,6 +3,7 @@ import jsTPS from '../common/jsTPS'
 import api from '../api'
 import DeleteSong_Transaction from '../transactions/DeleteSong_Transaction';
 import AddSong_Transaction from '../transactions/AddSong_Transaction';
+import EditSong_Transaction from '../transactions/EditSong_Transaction';
 export const GlobalStoreContext = createContext({});
 /*
     This is our global data store. Note that it uses the Flux design pattern,
@@ -274,6 +275,41 @@ export const useGlobalStore = () => {
     store.redo = function () {
         tps.doTransaction();
     }
+    store.editSong = function(i,initSong){
+        async function asyncEditSong(){
+            let response = await api.getPlaylistById(store.currentList._id);
+            if(response.data.success){
+                let pl = response.data.playlist;
+                pl.songs.splice(i,1,initSong);
+                async function updateTheList(pl){
+                    let up = {
+                        _id:pl._id,
+                        playlist:pl
+                    }
+                    response = await api.updatePlaylistById(up);
+                    if(response.data.success){
+                        async function getPairs(pl){
+                            response = await api.getPlaylistPairs();
+                            if (response.data.success){
+                                let array = response.data.idNamePairs;
+                                storeReducer({
+                                    type:GlobalStoreActionType.CHANGE_LIST_NAME,
+                                    payload:{
+                                        idNamePairs:array,
+                                        playlist:pl
+                                    }
+                                })
+                            }
+                        }
+                        getPairs(pl);
+                    }
+                }
+                updateTheList(pl);
+            }
+        }
+        asyncEditSong();
+    }
+
     store.addSong = function(i,s){
         async function asyncAddSong() {
             let response = await api.getPlaylistById(store.currentList._id);
@@ -458,6 +494,10 @@ export const useGlobalStore = () => {
     }
     store.addAddSongTransaction = function(i,s){
         let t = new AddSong_Transaction(store,i,s);
+        tps.addTransaction(t);
+    }
+    store.addEditSongTransaction = function(i,previousSong,initSong){
+        let t = new EditSong_Transaction(store,i,previousSong,initSong);
         tps.addTransaction(t);
     }
 
