@@ -23,11 +23,13 @@ export const GlobalStoreActionType = {
     OPEN_MODAL:"OPEN_MODAL",
     CLOSE_MODAL:"CLOSE_MODAL",
     DELETE_LIST_ACTION:"DELETE_LIST_ACTION",
-    MARK_SONG_FOR_DELETION:"MARK_SONG_FOR_DELETION"
+    MARK_SONG_FOR_DELETION:"MARK_SONG_FOR_DELETION",
+    MARK_SONG_FOR_EDITION:"MARK_SONG_FOR_EDITION"
 }
 const ModalType = {
     DELETE_LIST: "DELETE_LIST",
     DELETE_SONG:"DELETE_SONG",
+    EDIT_SONG:"EDIT_SONG",
     NONE:"NONE"
 }
 
@@ -169,6 +171,17 @@ export const useGlobalStore = () => {
                     markDeleteList:null,
                     markDeleteSong:null,
                     modalType:ModalType.NONE
+                })
+            }
+            case GlobalStoreActionType.MARK_SONG_FOR_EDITION:{
+                return setStore({
+                    idNamePairs : store.idNamePairs,
+                    currentList : store.currentList,
+                    newListCounter:store.newListCounter,
+                    listNameActive:false,
+                    markDeleteList:null,
+                    markDeleteSong:payload,
+                    modalType:ModalType.EDIT_SONG
                 })
             }
             default:
@@ -325,6 +338,12 @@ export const useGlobalStore = () => {
             return store.markDeleteSong.index;
         }
     }
+    store.markSongForEdition = function(nameAndIndex){
+        storeReducer({
+            type:GlobalStoreActionType.MARK_SONG_FOR_EDITION,
+            payload:nameAndIndex
+        });
+    }
     store.markSongForDeletion = function(nameAndIndex){
         storeReducer({
             type:GlobalStoreActionType.MARK_SONG_FOR_DELETION,
@@ -395,6 +414,9 @@ export const useGlobalStore = () => {
     }
     store.deleteSongModalIsOpen = () =>{
         return store.modalType === ModalType.DELETE_SONG;
+    }
+    store.editSongModalIsOpen = () =>{
+        return store.modalType === ModalType.EDIT_SONG;
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME

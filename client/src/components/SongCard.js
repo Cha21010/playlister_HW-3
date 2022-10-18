@@ -9,12 +9,16 @@ function SongCard(props) {
     function handleToggleDeleteSong(event){
         store.markSongForDeletion({song:song,index:index});
     }
+    function DoEditSong(event){
+        store.markSongForEdition({song:song,index:index});
+    }
     
     return (
         <div
             key={index}
             id={'song-' + index + '-card'}
             className={cardClass}
+            onDoubleClick = {DoEditSong}
         >
             {index + 1}.
             <a
