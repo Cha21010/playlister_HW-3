@@ -287,51 +287,51 @@ span {
 
 /* ANIMATIONS
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-[data-animation] .modal-dialog {
+[data-animation] .modal-root {
   opacity: 0;
   transition: all 0.5s var(--bounceEasing);
 }
 
-[data-animation].is-visible .modal-dialog {
+[data-animation].is-visible .modal-root {
   opacity: 1;
   transition-delay: 0.2s;
 }
 
-[data-animation="slideInOutDown"] .modal-dialog {
+[data-animation="slideInOutDown"] .modal-root {
   transform: translateY(100%);
 }
 
-[data-animation="slideInOutTop"] .modal-dialog {
+[data-animation="slideInOutTop"] .modal-root {
   transform: translateY(-100%);
 }
 
-[data-animation="slideInOutLeft"] .modal-dialog {
+[data-animation="slideInOutLeft"] .modal-root {
   transform: translateX(-100%);
 }
 
-[data-animation="slideInOutRight"] .modal-dialog {
+[data-animation="slideInOutRight"] .modal-root {
   transform: translateX(100%);
 }
 
-[data-animation="zoomInOut"] .modal-dialog {
+[data-animation="zoomInOut"] .modal-root {
   transform: scale(0.2);
 }
 
-[data-animation="rotateInOutDown"] .modal-dialog {
+[data-animation="rotateInOutDown"] .modal-root {
   transform-origin: top left;
   transform: rotate(-1turn);
 }
 
-[data-animation="mixInAnimations"].is-visible .modal-dialog {
+[data-animation="mixInAnimations"].is-visible .modal-root {
   animation: mixInAnimations 2s 0.2s linear forwards;
 }
 
-[data-animation="slideInOutDown"].is-visible .modal-dialog,
-[data-animation="slideInOutTop"].is-visible .modal-dialog,
-[data-animation="slideInOutLeft"].is-visible .modal-dialog,
-[data-animation="slideInOutRight"].is-visible .modal-dialog,
-[data-animation="zoomInOut"].is-visible .modal-dialog,
-[data-animation="rotateInOutDown"].is-visible .modal-dialog {
+[data-animation="slideInOutDown"].is-visible .modal-root,
+[data-animation="slideInOutTop"].is-visible .modal-root,
+[data-animation="slideInOutLeft"].is-visible .modal-root,
+[data-animation="slideInOutRight"].is-visible .modal-root,
+[data-animation="zoomInOut"].is-visible .modal-root,
+[data-animation="rotateInOutDown"].is-visible .modal-root{
   transform: none;
 }
 

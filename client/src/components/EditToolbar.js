@@ -33,10 +33,21 @@ function EditToolbar() {
             store.addAddSongTransaction(store.getPlaylistSize(),newSong);
         }
     }
-
-    let editStatus = true;
-    if (store.currentList) {
-        editStatus = false;
+    let canEdit = false;
+    if (store.currentList&&!store.hasModal) {
+        canEdit = true;
+    }
+    let canundo = false;
+    let canredo = false;
+    if(!store.hasModal){
+        if(store.currentList){
+            if(store.hasTransactionToRedo()){
+                canredo =  true;
+            }
+            if(store.hasTransactionToUndo()){
+                canundo = true;
+            }
+        }
     }
 
     return (
@@ -44,7 +55,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='add-song-button'
-                disabled={editStatus}
+                disabled={!canEdit}
                 value="+"
                 onClick={handleAddSong}
                 className={enabledButtonClass}
@@ -52,7 +63,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='undo-button'
-                disabled={editStatus}
+                disabled={!canundo}
                 value="⟲"
                 className={enabledButtonClass}
                 onClick={handleUndo}
@@ -60,7 +71,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='redo-button'
-                disabled={editStatus}
+                disabled={!canredo}
                 value="⟳"
                 className={enabledButtonClass}
                 onClick={handleRedo}
@@ -68,7 +79,7 @@ function EditToolbar() {
             <input
                 type="button"
                 id='close-button'
-                disabled={editStatus}
+                disabled={!canEdit}
                 value="&#x2715;"
                 className={enabledButtonClass}
                 onClick={handleClose}
